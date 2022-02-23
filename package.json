@@ -9,7 +9,7 @@
     "initdev": "npm run migrate && npm run seed",
     "migrate": "npx sequelize-cli db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
-    "resetDB": "npx sequelize-cli db:migrate:undo:all && npm run initdev",
+    "resetdb": "npx sequelize-cli db:migrate:undo:all && npm run initdev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -32,5 +32,13 @@
   "devDependencies": {
     "axios": "^0.19.2",
     "nodemon": "^2.0.13"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Codaisseur/express-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Codaisseur/express-template/issues"
+  },
+  "homepage": "https://github.com/Codaisseur/express-template#readme"
 }
