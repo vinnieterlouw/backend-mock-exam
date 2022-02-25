@@ -12,6 +12,7 @@ const router = new Router();
 router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password);
 
     if (!email || !password) {
       return res
@@ -84,9 +85,30 @@ router.post("/signup", async (req, res) => {
 // - get the users email & name using only their token
 // - checking if a token is (still) valid
 router.get("/me", authMiddleware, async (req, res) => {
-  // don't send back the password hash
+  const spaceOfUser = await Space.findOne({
+    where: {
+      userId: req.user.id,
+    },
+    include: [Story],
+    order: [[Story, "createdAt", "DESC"]],
+  });
   delete req.user.dataValues["password"];
-  res.status(200).send({ ...req.user.dataValues });
+  res.status(200).send({ ...req.user.dataValues, spaceOfUser });
 });
 
+router.post("/post/:spaceId", authMiddleware, async (req, res) => {
+  try {
+    const spaceId = parseInt(req.params.spaceId);
+    const { name, content, imageUrl } = req.body;
+
+    // if (!checkSpace) {
+    //   res.status(404).send("Id not found");
+    // } else {
+    console.log("what is body", name, content, imageUrl);
+    const newPost = await Story.create({ name, content, imageUrl });
+    res.status(200).send(newPost);
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;
