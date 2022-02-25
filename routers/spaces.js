@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/details/:id", auth, async (req, res) => {
+router.get("/details/:id", async (req, res) => {
   const { id } = req.params;
 
   const space = await Space.findByPk(id, {
@@ -27,6 +27,28 @@ router.get("/details/:id", auth, async (req, res) => {
   }
 
   res.status(200).send({ message: "ok", space });
+});
+
+router.patch("/edit/:id", async (req, res) => {
+  try {
+    const spaceId = req.params.id;
+    const { title, description, backgroundColor, color } = req.body;
+
+    const getSpaceById = await Space.findByPk(spaceId);
+    if (!getSpaceById) {
+      res.status(400).send("This is not correct");
+    } else {
+      const updateSpace = await getSpaceById.update({
+        title,
+        description,
+        backgroundColor,
+        color,
+      });
+      res.status(200).send(updateSpace);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;
