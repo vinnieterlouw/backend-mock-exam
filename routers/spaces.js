@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const auth = require("../auth/middleware");
 const Space = require("../models").space;
 const Story = require("../models").story;
 
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/details/:id", async (req, res) => {
+router.get("/details/:id", auth, async (req, res) => {
   const { id } = req.params;
 
   const space = await Space.findByPk(id, {
