@@ -105,7 +105,7 @@ router.post("/post/:spaceId", authMiddleware, async (req, res) => {
     //   res.status(404).send("Id not found");
     // } else {
     console.log("what is body", name, content, imageUrl);
-    const newPost = await Story.create({ name, content, imageUrl });
+    const newPost = await Story.create({ name, content, imageUrl, spaceId });
     res.status(200).send(newPost);
   } catch (error) {
     console.log(error);
